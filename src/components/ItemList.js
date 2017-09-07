@@ -1,35 +1,28 @@
+import 'whatwg-fetch';
+
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { itemsFetchData, itemsDeleteItem } from '../actions/items';
 
-class ItemList extends Component { 
-  constructor() {
-    super();
-
-    this.state = {
-      items: [
-        { id: 1, label: 'List item 1' },
-        { id: 2, label: 'List item 2' },
-        { id: 3, label: 'List item 3' },
-        { id: 4, label: 'List item 4' },
-      ],
-      hasErrored: false,
-      isLoading: false
-    };
+class ItemList extends Component {
+  componentDidMount() {
+    this.props.fetchData('http://5826ed963900d612000138bd.mockapi.io/items');
   }
 
-  render() { 
-    if (this.state.hasErrored) {
+  render() {
+    if (this.props.hasErrored) {
       return <p>Sorry, there was an error... #fail</p>;
-    } 
+    }
 
-    if (this.state.isLoading) {
+    if (this.props.isLoading) {
       return <p>Loading...</p>;
     }
 
     return (
       <ul>
-        {this.state.items.map((item) => (
+        {this.props.items.map((item) => (
           <li key={item.id}>
-            {item.label}
+            <button onClick={() => { this.props.deleteItemClicked(item.id); }}>Delete</button> - {item.label} 
           </li>
         ))}
       </ul>
@@ -37,4 +30,19 @@ class ItemList extends Component {
   }
 }
 
-export default ItemList;
+const mapStateToProps = (state) => {
+  return {
+    items: state.items,
+    hasErrored: state.itemsHasErrored,
+    isLoading: state.itemsIsLoading
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchData: (url) => dispatch(itemsFetchData(url)),
+    deleteItemClicked: (itemId) => dispatch(itemsDeleteItem(itemId))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItemList);
