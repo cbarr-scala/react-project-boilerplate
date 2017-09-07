@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -17,24 +16,14 @@ module.exports = {
       loader: 'babel-loader',
       exclude: /node_modules/,
       options: {
-        presets: ['env'],
-        plugins: [
-          'syntax-dynamic-import',
-          'transform-object-rest-spread',
-          'transform-class-properties'
-        ],
+        presets: ['env']
       },
     }, {
       test: /\.jsx$/,
       loader: 'babel-loader',
       exclude: /node_modules/,
       options: {
-        presets: ['env'],
-        plugins: [
-          'syntax-dynamic-import',
-          'transform-object-rest-spread',
-          'transform-class-properties'
-        ],
+        presets: ['env']
       },
     }],
   },
