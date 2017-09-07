@@ -12,10 +12,31 @@ module.exports = {
     contentBase: './dist',
   },
   module: {
-    loaders: [
-      { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
-    ],
+    loaders: [{
+      test: /\.js$/,
+      loader: 'babel-loader',
+      exclude: /node_modules/,
+      options: {
+        presets: ['env'],
+        plugins: [
+          'syntax-dynamic-import',
+          'transform-object-rest-spread',
+          'transform-class-properties'
+        ],
+      },
+    }, {
+      test: /\.jsx$/,
+      loader: 'babel-loader',
+      exclude: /node_modules/,
+      options: {
+        presets: ['env'],
+        plugins: [
+          'syntax-dynamic-import',
+          'transform-object-rest-spread',
+          'transform-class-properties'
+        ],
+      },
+    }],
   },
   plugins: [
     new HtmlWebpackPlugin({
